@@ -43,10 +43,24 @@ namespace StockMarket.Controllers
             return stock;
         }
 
+        [HttpGet("GetStockByStockNameLike/{stockName}")]
+        public async Task<ActionResult<IEnumerable<Stock>>> GetStockByStockNameLike(string stockName)
+        {
+            var result = await _context.Stock.Where(x => x.StockName.ToUpper().Contains(stockName.ToUpper())).ToListAsync();
+            return result;
+        }
+
+        [HttpGet("EnoughStocksAvailable/{stockName}/{stockQuantity}")]
+        public async Task<object> EnoughStocksAvailable(string stockName, int stockQuantity)
+        {
+            var result = await _context.Stock.FindAsync(stockName);
+            return result.StockQuantity >= stockQuantity;
+        }
+
         [HttpGet("GetStocksByOwner/{stockOwner}")]
         public async Task<ActionResult<IEnumerable<Stock>>> GetStocksByOwner(string stockOwner)
         {
-            var result = await _context.Stock.Where(x => x.StockOwner.Equals(stockOwner)).ToListAsync();
+            var result = await _context.Stock.Where(x => x.StockOwner.Equals(stockOwner)).OrderByDescending(x => x.DateAdded).ToListAsync();
             return result;
         }
 
