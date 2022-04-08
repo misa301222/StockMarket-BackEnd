@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StockMarket.Data;
@@ -11,9 +12,10 @@ using StockMarket.Data;
 namespace StockMarket.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220408014527_StocksProfit")]
+    partial class StocksProfit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,20 +311,6 @@ namespace StockMarket.Data.Migrations
                     b.HasKey("Email", "StockName");
 
                     b.ToTable("UserPortfolios");
-                });
-
-            modelBuilder.Entity("StockMarket.Data.Entity.UserProfit", b =>
-                {
-                    b.Property<string>("Email")
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)");
-
-                    b.Property<decimal>("Money")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Email");
-
-                    b.ToTable("UserProfit");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
