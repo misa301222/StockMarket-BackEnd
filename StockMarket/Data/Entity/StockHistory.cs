@@ -17,6 +17,7 @@ namespace StockMarket.Data.Entity
         public int StockId { get; set; }
         [Required]
         public string StockName { get; set; }
+        [Column(TypeName = "timestamp without time zone")]
         public DateTime StockDate { get; set; }
         public decimal StockPrice { get; set; }
     }

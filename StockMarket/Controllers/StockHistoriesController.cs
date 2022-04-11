@@ -51,6 +51,21 @@ namespace StockMarket.Controllers
             return stockHistory;
         }
 
+        [HttpGet("GetStockHistoryByStockNameAscending/{stockName}")]
+        public async Task<ActionResult<IEnumerable<StockHistory>>> GetStockHistoryByStockNameAscending(string stockName)
+        {
+            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName)).OrderBy(x => x.StockDate).ToListAsync();
+
+            return stockHistory;
+        }
+
+        [HttpGet("GetStockHistoryByStockNameAndDate/{stockName}/{date}")]
+        public async Task<ActionResult<StockHistory>> GetStockHistoryByStockNameAndDate(string stockName, DateTime date)
+        {
+            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName) && x.StockDate.Equals(date)).FirstOrDefaultAsync();            
+            return stockHistory != null ? stockHistory : null;
+        }
+
         // PUT: api/StockHistories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -87,7 +102,8 @@ namespace StockMarket.Controllers
         [HttpPost]
         public async Task<ActionResult<StockHistory>> PostStockHistory(StockHistory stockHistory)
         {
-            _context.StockHistories.Add(stockHistory);
+            stockHistory.StockDate.ToUniversalTime();
+            _context.StockHistories.Add(stockHistory);            
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetStockHistory", new { id = stockHistory.StockId }, stockHistory);

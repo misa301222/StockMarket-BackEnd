@@ -25,6 +25,7 @@ namespace StockMarket.Data.Entity
         public decimal StockPrice { get; set; }
         public int StockQuantity { get; set; }
         public string StockLogoURL { get; set; }
+        [Column(TypeName = "timestamp without time zone")]
         public DateTime DateAdded { get; set; }
         [Required]
         public string StockOwner { get; set; }
