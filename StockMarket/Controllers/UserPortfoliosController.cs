@@ -43,6 +43,14 @@ namespace StockMarket.Controllers
             return userPortfolio;
         }
 
+
+        [HttpGet("GetUserProfitByStockName/{stockName}")]
+        public async Task<ActionResult<IEnumerable<UserPortfolio>>> GetUserProfitByStockName(string stockName)
+        {
+            var userPortfolios = await _context.UserPortfolios.Where(x => x.StockName.Equals(stockName)).ToListAsync();
+            return userPortfolios;
+        }
+
         [HttpGet("GetUserPortfolioByEmail/{email}")]
         public async Task<ActionResult<IEnumerable<UserPortfolio>>> GetUserPortfolioByEmail(string email)
         {

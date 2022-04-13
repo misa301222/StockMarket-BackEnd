@@ -29,6 +29,13 @@ namespace StockMarket.Controllers
             return await _context.StockBought.ToListAsync();
         }
 
+        [HttpGet("GetStockBoughtByEmailAndStockName/{email}/{stockName}")]
+        public async Task<ActionResult<IEnumerable<StockBought>>> GetStockBoughtByEmailAndStockName(string email, string stockName)
+        {
+            var stockBought = await _context.StockBought.Where(x => x.Email.Equals(email) && x.StockName.Equals(stockName)).OrderByDescending(x => x.TransactionDate).ToListAsync();
+            return stockBought;
+        }
+
         // GET: api/StockBoughts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<StockBought>> GetStockBought(int id)
