@@ -29,6 +29,16 @@ namespace StockMarket.Controllers
             return await _context.StockBought.ToListAsync();
         }
 
+        [HttpGet("GetFrequentlyBoughtStocks")]
+        public async Task<ActionResult<IEnumerable<StockBought>>> GetFrequentlyBoughtStocks()
+        {
+            var dateToday = DateTime.Today;
+            var stockBought = await _context.StockBought.GroupBy(x => x.StockName).Select(
+                x => x.OrderByDescending(x => x.QuantityBought).Where(x => x.TransactionDate.Equals(dateToday)).First()).Take(5).ToListAsync();
+
+            return stockBought;
+        }
+
         [HttpGet("GetStockBoughtByEmailAndStockName/{email}/{stockName}")]
         public async Task<ActionResult<IEnumerable<StockBought>>> GetStockBoughtByEmailAndStockName(string email, string stockName)
         {

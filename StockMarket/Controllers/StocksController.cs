@@ -43,6 +43,13 @@ namespace StockMarket.Controllers
             return stock;
         }
 
+        [HttpGet("GetStocksLastTwenty")]
+        public async Task<ActionResult<IEnumerable<Stock>>> GetStocksLastTwenty()
+        {
+            var result = await _context.Stock.OrderByDescending(x => x.DateAdded).Take(20).ToListAsync();
+            return result;
+        }
+
         [HttpGet("GetStockByStockNameLike/{stockName}")]
         public async Task<ActionResult<IEnumerable<Stock>>> GetStockByStockNameLike(string stockName)
         {
