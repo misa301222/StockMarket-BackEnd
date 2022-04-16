@@ -29,6 +29,13 @@ namespace StockMarket.Controllers
             return await _context.UserProfiles.ToListAsync();
         }
 
+        [HttpGet("GetUserProfileByEmailLike/{email}")]
+        public async Task<ActionResult<IEnumerable<UserProfile>>> GetUserProfileByEmailLike(string email)
+        {
+            var userProfile = await _context.UserProfiles.Where(x => x.Email.Contains(email)).ToListAsync();
+            return userProfile;
+        }
+
         // GET: api/UserProfiles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserProfile>> GetUserProfile(string id)

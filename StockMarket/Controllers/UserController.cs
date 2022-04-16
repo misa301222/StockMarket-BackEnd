@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StockMarket.Data;
@@ -9,9 +10,11 @@ using StockMarket.Models;
 using StockMarket.Models.BindingModel;
 using StockMarket.Models.DTO;
 using StockMarket.Models.Enums;
+using System.Data.Entity.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DbUpdateConcurrencyException = Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException;
 
 namespace StockMarket.Controllers
 {
@@ -73,6 +76,17 @@ namespace StockMarket.Controllers
             }
         }
 
+        [HttpPost("EditFullName")]
+        public async Task<object> EditFullName([FromBody] UpdateFullNameBindingModel model)
+        {
+            var currentUser = await _userManager.FindByEmailAsync(model.Email);
+            currentUser.FullName = model.FullName;
+            await _userManager.UpdateAsync(currentUser);
+
+            return await Task.FromResult(new ResponseModel(ResponseCode.OK, "FullName edited successfully!", null));
+
+        }
+
 
         //[Authorize(Roles = "User, Admin")]
         [HttpGet("GetCurrentUser/{email}")]
@@ -124,7 +138,7 @@ namespace StockMarket.Controllers
             {
                 List<UserDTO> alluserDTO = new List<UserDTO>();
                 //var users = _userManager.Users.ToList();
-                var users = _userManager.Users.Where(x => x.FullName.Contains(fullName)).ToList();
+                var users = _userManager.Users.Where(x => x.FullName.ToUpper().Contains(fullName.ToUpper())).ToList();
                 foreach (var user in users)
                 {
                     var roles = (await _userManager.GetRolesAsync(user)).ToList();
