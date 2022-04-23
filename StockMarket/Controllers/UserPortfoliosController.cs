@@ -54,7 +54,7 @@ namespace StockMarket.Controllers
         [HttpGet("GetUserPortfolioByEmail/{email}")]
         public async Task<ActionResult<IEnumerable<UserPortfolio>>> GetUserPortfolioByEmail(string email)
         {
-            var userPortfolio = await _context.UserPortfolios.Where(x => x.Email.Equals(email)).ToListAsync();
+            var userPortfolio = await _context.UserPortfolios.Where(x => x.Email.Equals(email)).OrderBy(x => x.StockName).ToListAsync();
             return userPortfolio;
         }
 
