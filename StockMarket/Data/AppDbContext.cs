@@ -29,5 +29,6 @@ namespace StockMarket.Data
         public DbSet<StockHistory> StockHistories { get; set; }
         public DbSet<StockSold> StockSold { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<UserProfitHistory> UserProfitHistories { get; set; }
     }
 }
