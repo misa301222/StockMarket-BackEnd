@@ -62,7 +62,7 @@ namespace StockMarket.Controllers
         [HttpGet("GetStockHistoryByStockNameAndDate/{stockName}/{date}")]
         public async Task<ActionResult<StockHistory>> GetStockHistoryByStockNameAndDate(string stockName, DateTime date)
         {
-            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName) && x.StockDate.Equals(date)).FirstOrDefaultAsync();            
+            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName) && x.StockDate.ToUniversalTime().Date.Equals(date.ToUniversalTime().Date)).FirstOrDefaultAsync();            
             return stockHistory != null ? stockHistory : null;
         }
 

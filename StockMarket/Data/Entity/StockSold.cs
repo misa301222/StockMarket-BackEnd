@@ -24,7 +24,7 @@ namespace StockMarket.Data.Entity
         public string StockName { get; set; }
         public int QuantityBought { get; set; }
         public decimal TransactionTotal { get; set; }
-        [Column(TypeName = "timestamp without time zone")]
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime TransactionDate { get; set; }
     }
 }

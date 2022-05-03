@@ -33,7 +33,7 @@ namespace StockMarket.Controllers
         public async Task<ActionResult<IEnumerable<StockBought>>> GetFrequentlyBoughtStocks()
         {
             var dateToday = DateTime.Today;
-            var stockBought = await _context.StockBought.Where(x => x.TransactionDate.Equals(dateToday)).GroupBy(x => x.StockName).Select(
+            var stockBought = await _context.StockBought.Where(x => x.TransactionDate.ToUniversalTime().Date.Equals(dateToday.ToUniversalTime().Date)).GroupBy(x => x.StockName).Select(
                 x => x.OrderByDescending(x => x.QuantityBought).First()).ToListAsync();
 
             return stockBought;

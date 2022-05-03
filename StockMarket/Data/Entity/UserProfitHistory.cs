@@ -18,7 +18,7 @@ namespace StockMarket.Data.Entity
         public int UserProfitId { get; set; }
         public string Email { get; set; }
         public decimal Money { get; set; }
-        [Column(TypeName = "timestamp without time zone")]
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime TransactionDate { get; set; }
     }
 }

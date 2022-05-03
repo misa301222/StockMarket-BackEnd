@@ -43,6 +43,20 @@ namespace StockMarket.Controllers
             return tradeStockHistory;
         }
 
+        [HttpGet("GetTradeStockHistoriesBySourceEmail/{email}")]
+        public async Task<ActionResult<IEnumerable<TradeStockHistory>>> GetTradeStockHistoriesBySourceEmail(string email)
+        {
+            var tradeStockHistory = await _context.TradeStockHistories.Where(x => x.SourceEmail.Equals(email)).ToListAsync();
+            return tradeStockHistory;
+        }
+
+        [HttpGet("GetTradeStockHistoriesBySourceEmailAndStatus/{email}/{status}")]
+        public async Task<ActionResult<IEnumerable<TradeStockHistory>>> GetTradeStockHistoriesBySourceEmailAndStatus(string email, string status)
+        {
+            var tradeStockHistory = await _context.TradeStockHistories.Where(x => (x.SourceEmail.Equals(email) || x.DestinyEmail.Equals(email)) && x.Status.Equals(status)).ToListAsync();
+            return tradeStockHistory;
+        }
+
         // PUT: api/TradeStockHistories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
