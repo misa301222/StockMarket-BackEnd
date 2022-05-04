@@ -57,6 +57,13 @@ namespace StockMarket.Controllers
             return tradeStockHistory;
         }
 
+        [HttpGet("GetDistinctPendingTradeStockHistoriesBySourceEmail/{email}")]
+        public async Task<ActionResult<IEnumerable<TradeStockHistory>>> GetDistinctPendingTradeStockHistoriesBySourceEmail(string email)
+        {
+            var tradeStockHistory = await _context.TradeStockHistories.Where(x => (x.SourceEmail.Equals(email) || x.DestinyEmail.Equals(email)) && (!x.Status.Equals("PENDING"))).ToListAsync();
+            return tradeStockHistory;
+        }
+
         // PUT: api/TradeStockHistories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
