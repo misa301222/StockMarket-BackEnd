@@ -60,7 +60,7 @@ namespace StockMarket.Controllers
         [HttpGet("GetDistinctPendingTradeStockHistoriesBySourceEmail/{email}")]
         public async Task<ActionResult<IEnumerable<TradeStockHistory>>> GetDistinctPendingTradeStockHistoriesBySourceEmail(string email)
         {
-            var tradeStockHistory = await _context.TradeStockHistories.Where(x => (x.SourceEmail.Equals(email) || x.DestinyEmail.Equals(email)) && (!x.Status.Equals("PENDING"))).ToListAsync();
+            var tradeStockHistory = await _context.TradeStockHistories.Where(x => (x.SourceEmail.Equals(email) || x.DestinyEmail.Equals(email)) && (!x.Status.Equals("PENDING"))).OrderByDescending(x => x.TransactionDate).ToListAsync();
             return tradeStockHistory;
         }
 

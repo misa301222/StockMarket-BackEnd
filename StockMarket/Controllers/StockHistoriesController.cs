@@ -54,15 +54,15 @@ namespace StockMarket.Controllers
         [HttpGet("GetStockHistoryByStockNameAscending/{stockName}")]
         public async Task<ActionResult<IEnumerable<StockHistory>>> GetStockHistoryByStockNameAscending(string stockName)
         {
-            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName)).OrderBy(x => x.StockDate).ToListAsync();
+            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName)).OrderBy(x => DateOnly.FromDateTime(x.StockDate.Date)).ToListAsync();
 
             return stockHistory;
         }
 
         [HttpGet("GetStockHistoryByStockNameAndDate/{stockName}/{date}")]
         public async Task<ActionResult<StockHistory>> GetStockHistoryByStockNameAndDate(string stockName, DateTime date)
-        {
-            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName) && x.StockDate.ToUniversalTime().Date.Equals(date.ToUniversalTime().Date)).FirstOrDefaultAsync();            
+        {                     
+            var stockHistory = await _context.StockHistories.Where(x => x.StockName.Equals(stockName) && DateOnly.FromDateTime(x.StockDate.Date).Equals(DateOnly.FromDateTime(date))).FirstOrDefaultAsync();
             return stockHistory != null ? stockHistory : null;
         }
 
