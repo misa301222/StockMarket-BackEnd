@@ -57,6 +57,13 @@ namespace StockMarket.Controllers
             return result;
         }
 
+        [HttpGet("GetStockByStockName/{stockName}")]
+        public async Task<ActionResult<Stock>> GetStockByStockName(string stockName)
+        {
+            var result = await _context.Stock.Where(x => x.StockName.ToUpper().Equals(stockName.ToUpper())).FirstOrDefaultAsync();
+            return result;
+        }
+
         [HttpGet("EnoughStocksAvailable/{stockName}/{stockQuantity}")]
         public async Task<object> EnoughStocksAvailable(string stockName, int stockQuantity)
         {
