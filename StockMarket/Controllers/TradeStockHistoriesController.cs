@@ -50,6 +50,51 @@ namespace StockMarket.Controllers
             return tradeStockHistory;
         }
 
+        [HttpGet("GetTradeStockHistoriesByDate/{day}/{month}/{year}/{email}")]
+        public async Task<ActionResult<IEnumerable<TradeStockHistory>>> GetTradeStockHistoriesByDate(int day, int month, int year, string email)
+        {
+            var tradeStockHistoryList = new List<TradeStockHistory>();
+            var tradeStockHistory = await _context.TradeStockHistories.Where(x => ((x.SourceEmail.Equals(email) || x.DestinyEmail.Equals(email)) && (!x.Status.Equals("PENDING"))) &&
+            x.TransactionDate.ToLocalTime().Year.Equals(year)).ToListAsync();
+            if (month > 0 && day > 0)
+            {
+                foreach (var element in tradeStockHistory)
+                {
+                    if (element.TransactionDate.ToLocalTime().Month.Equals(month))
+                    {
+                        if (element.TransactionDate.ToLocalTime().Day.Equals(day))
+                            tradeStockHistoryList.Add(element);
+                    }
+                }
+            }
+
+            if (month > 0 && day == 0)
+            {
+                foreach (var element in tradeStockHistory)
+                {
+                    if (element.TransactionDate.ToLocalTime().Month.Equals(month))
+                    {
+                        tradeStockHistoryList.Add(element);
+                    }
+                }
+            }
+
+            /*
+            if (day > 0)
+            {
+                foreach (var element in tradeStockHistory)
+                {
+                    if (element.TransactionDate.Date.Day == day)
+                    {
+                        tradeStockHistoryList.Add(element);
+                    }
+                }
+            }
+            */
+
+            return tradeStockHistoryList;
+        }
+
         [HttpGet("GetTradeStockHistoriesBySourceEmailAndStatus/{email}/{status}")]
         public async Task<ActionResult<IEnumerable<TradeStockHistory>>> GetTradeStockHistoriesBySourceEmailAndStatus(string email, string status)
         {
