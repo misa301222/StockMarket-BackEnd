@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StockMarket.Data;
@@ -11,13 +12,14 @@ using StockMarket.Data;
 namespace StockMarket.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220415014131_UserProfile")]
+    partial class UserProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -281,7 +283,7 @@ namespace StockMarket.Data.Migrations
                         .HasColumnType("character varying(40)");
 
                     b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("TransactionTotal")
                         .HasColumnType("numeric");
@@ -300,7 +302,7 @@ namespace StockMarket.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StockId"));
 
                     b.Property<DateTime>("StockDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("StockName")
                         .IsRequired()
@@ -335,7 +337,7 @@ namespace StockMarket.Data.Migrations
                         .HasColumnType("character varying(40)");
 
                     b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("TransactionTotal")
                         .HasColumnType("numeric");
@@ -343,44 +345,6 @@ namespace StockMarket.Data.Migrations
                     b.HasKey("StocksSoldId");
 
                     b.ToTable("StockSold");
-                });
-
-            modelBuilder.Entity("StockMarket.Data.Entity.TradeStockHistory", b =>
-                {
-                    b.Property<int>("TradeStockHistoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TradeStockHistoryId"));
-
-                    b.Property<string>("DestinyEmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SourceEmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StockName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("StockPrice")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("TradeStockHistoryId");
-
-                    b.ToTable("TradeStockHistories");
                 });
 
             modelBuilder.Entity("StockMarket.Data.Entity.UserPortfolio", b =>
@@ -462,29 +426,6 @@ namespace StockMarket.Data.Migrations
                     b.HasKey("Email");
 
                     b.ToTable("UserProfit");
-                });
-
-            modelBuilder.Entity("StockMarket.Data.Entity.UserProfitHistory", b =>
-                {
-                    b.Property<int>("UserProfitId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserProfitId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("Money")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("UserProfitId");
-
-                    b.ToTable("UserProfitHistories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
